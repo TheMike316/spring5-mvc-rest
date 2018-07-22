@@ -2,6 +2,7 @@ buildscript {
     ext {
         kotlinVersion = '1.2.41'
         springBootVersion = '2.0.3.RELEASE'
+        mapstructVersion = '1.2.0.Final'
     }
     repositories {
         mavenCentral()
@@ -18,6 +19,7 @@ apply plugin: 'kotlin-spring'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'kotlin-kapt'
 
 group = 'com.miho'
 version = '0.0.1-SNAPSHOT'
@@ -46,6 +48,8 @@ dependencies {
     compile('com.fasterxml.jackson.module:jackson-module-kotlin')
     compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     compile("org.jetbrains.kotlin:kotlin-reflect")
+    compile('org.mapstruct:mapstruct-jdk8:' + mapstructVersion)
+    kapt('org.mapstruct:mapstruct-processor:' + mapstructVersion)
     runtime('org.springframework.boot:spring-boot-devtools')
     runtime('com.h2database:h2')
     testCompile('org.springframework.boot:spring-boot-starter-test')
