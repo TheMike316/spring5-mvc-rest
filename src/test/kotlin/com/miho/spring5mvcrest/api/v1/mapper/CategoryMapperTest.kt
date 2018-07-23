@@ -1,4 +1,4 @@
-package com.miho.api.v1.mapper
+package com.miho.spring5mvcrest.api.v1.mapper
 
 import com.miho.spring5mvcrest.domain.Category
 import org.assertj.core.api.Assertions.assertThat

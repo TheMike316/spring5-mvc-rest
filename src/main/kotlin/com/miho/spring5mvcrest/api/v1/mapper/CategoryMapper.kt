@@ -1,6 +1,6 @@
-package com.miho.api.v1.mapper
+package com.miho.spring5mvcrest.api.v1.mapper
 
-import com.miho.api.v1.model.CategoryDTO
+import com.miho.spring5mvcrest.api.v1.model.CategoryDTO
 import com.miho.spring5mvcrest.domain.Category
 
 object CategoryMapper {
