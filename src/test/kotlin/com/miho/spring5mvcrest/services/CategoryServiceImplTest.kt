@@ -32,8 +32,8 @@ class CategoryServiceImplTest {
 
         val readCategories = categoryService.getAllCategories()
 
-        assertThat(readCategories.map { it.id }).containsOnly(*categories.map { it.id }.toTypedArray())
-        assertThat(readCategories.map { it.name }).containsOnly(*categories.map { it.name }.toTypedArray())
+        assertThat(readCategories.categories.map { it.id }).containsOnly(*categories.map { it.id }.toTypedArray())
+        assertThat(readCategories.categories.map { it.name }).containsOnly(*categories.map { it.name }.toTypedArray())
     }
 
     @Test

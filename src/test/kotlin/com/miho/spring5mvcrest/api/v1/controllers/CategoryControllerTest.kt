@@ -1,6 +1,7 @@
 package com.miho.spring5mvcrest.api.v1.controllers
 
 import com.miho.spring5mvcrest.api.v1.model.CategoryDTO
+import com.miho.spring5mvcrest.api.v1.model.CategoryListDTO
 import com.miho.spring5mvcrest.services.CategoryService
 import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.hasSize
@@ -37,7 +38,7 @@ class CategoryControllerTest {
 
     @Test
     fun testListCategories() {
-        val categories = listOf(CategoryDTO(1, "Cheese"), CategoryDTO(2, "Bacon"))
+        val categories = CategoryListDTO(listOf(CategoryDTO(1, "Cheese"), CategoryDTO(2, "Bacon")))
 
         mockWhen(categoryService.getAllCategories()).thenReturn(categories)
 
