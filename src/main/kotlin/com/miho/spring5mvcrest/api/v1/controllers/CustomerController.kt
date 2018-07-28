@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/v1/customers")
 class CustomerController(private val customerService: CustomerService) {
 
-    @GetMapping("/")
+    @GetMapping("/", "")
     fun getAllCustomers() = customerService.getAllCustomers().toResponseEntity()
 
     @GetMapping("/{id}")
