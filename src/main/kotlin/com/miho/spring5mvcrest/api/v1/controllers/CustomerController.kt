@@ -1,18 +1,19 @@
 package com.miho.spring5mvcrest.api.v1.controllers
 
+import com.miho.spring5mvcrest.api.v1.model.CustomerDTO
 import com.miho.spring5mvcrest.services.CustomerService
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/customers")
 class CustomerController(private val customerService: CustomerService) {
 
     @GetMapping("/", "")
-    fun getAllCustomers() = customerService.getAllCustomers().toResponseEntity()
+    fun getAllCustomers() = customerService.getAllCustomers().toOkResponse()
 
     @GetMapping("/{id}")
-    fun getCustomerById(@PathVariable id: Long) = customerService.getCustomerById(id).toResponseEntity()
+    fun getCustomerById(@PathVariable id: Long) = customerService.getCustomerById(id).toOkResponse()
+
+    @PostMapping("/", "")
+    fun createNewCustomer(@RequestBody customerDTO: CustomerDTO) = customerService.saveNewCustomer(customerDTO).toCreatedResponse()
 }

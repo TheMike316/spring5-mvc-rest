@@ -8,4 +8,6 @@ interface CustomerService {
     fun getAllCustomers(): CustomerListDTO
 
     fun getCustomerById(id: Long): CustomerDTO
+
+    fun saveNewCustomer(customer: CustomerDTO): CustomerDTO
 }

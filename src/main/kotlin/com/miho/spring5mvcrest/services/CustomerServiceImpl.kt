@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class CustomerServiceImpl(private val customerRepository: CustomerRepository) : CustomerService {
+
     override fun getAllCustomers(): CustomerListDTO {
         return customerRepository.findAll()
                 .map { CustomerMapper.convertCustomerToDTO(it) ?: throw IllegalStateException() }
@@ -18,5 +19,9 @@ class CustomerServiceImpl(private val customerRepository: CustomerRepository) : 
         return customerRepository.findById(id)
                 .orElseThrow { RuntimeException("None of them fancy customers o' yours with them fancy id was found") }
                 .let { CustomerMapper.convertCustomerToDTO(it) ?: throw IllegalStateException() }
+    }
+
+    override fun saveNewCustomer(customer: CustomerDTO): CustomerDTO {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

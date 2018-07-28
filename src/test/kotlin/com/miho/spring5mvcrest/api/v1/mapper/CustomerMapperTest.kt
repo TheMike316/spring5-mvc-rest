@@ -19,6 +19,6 @@ class CustomerMapperTest {
         assertThat(customerDTO).isNotNull
         assertThat(customerDTO!!.firstName).isEqualTo(customer.firstName)
         assertThat(customerDTO.lastName).isEqualTo(customer.lastName)
-        assertThat(customerDTO.id).isEqualTo(customer.id)
+        //assertThat(customerDTO.id).isEqualTo(customer.id)
     }
 }

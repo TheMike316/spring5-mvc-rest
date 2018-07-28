@@ -9,5 +9,11 @@ object CustomerMapper {
             if (customer == null)
                 null
             else
-                CustomerDTO(firstName = customer.firstName, lastName = customer.lastName, id = customer.id)
+                CustomerDTO(firstName = customer.firstName, lastName = customer.lastName)
+
+    fun convertDTOToCustomer(dto: CustomerDTO?) =
+            if (dto == null)
+                null
+            else
+                Customer(dto.firstName, dto.lastName)
 }

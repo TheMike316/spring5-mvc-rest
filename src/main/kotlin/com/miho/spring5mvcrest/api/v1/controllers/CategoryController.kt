@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController
 class CategoryController(private val categoryService: CategoryService) {
 
     @GetMapping("/", "")
-    fun getCategories() = categoryService.getAllCategories().toResponseEntity()
+    fun getCategories() = categoryService.getAllCategories().toOkResponse()
 
     @GetMapping("/{name}")
-    fun getCategoryByName(@PathVariable name: String) = categoryService.getCategoryByName(name).toResponseEntity()
+    fun getCategoryByName(@PathVariable name: String) = categoryService.getCategoryByName(name).toOkResponse()
 }
