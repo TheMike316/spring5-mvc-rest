@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/v1/categories")
 class CategoryController(private val categoryService: CategoryService) {
 
-    @GetMapping("/")
+    @GetMapping("/", "")
     fun getCategories() = categoryService.getAllCategories().toResponseEntity()
 
     @GetMapping("/{name}")
