@@ -50,8 +50,8 @@ class CustomerServiceImplTest {
         val readCustomer = customerService.getCustomerById(2)
 
         //then
-        assertThat(readCustomer.firstName).isEqualTo(customer.firstName)
-        assertThat(readCustomer.lastName).isEqualTo(customer.lastName)
+        assertThat(readCustomer.firstname).isEqualTo(customer.firstName)
+        assertThat(readCustomer.lastname).isEqualTo(customer.lastName)
         // assertThat(readCustomer.id).isEqualTo(customer.id)
     }
 
@@ -65,8 +65,8 @@ class CustomerServiceImplTest {
         val savedCustomer = customerService.saveNewCustomer(CustomerMapper.convertCustomerToDTO(customer)!!)
 
         //then
-        assertThat(savedCustomer.firstName).isEqualTo(customer.firstName)
-        assertThat(savedCustomer.lastName).isEqualTo(customer.lastName)
-        assertThat(savedCustomer.customerUrl).isNotBlank()
+        assertThat(savedCustomer.firstname).isEqualTo(customer.firstName)
+        assertThat(savedCustomer.lastname).isEqualTo(customer.lastName)
+        assertThat(savedCustomer.customer_url).isNotBlank()
     }
 }

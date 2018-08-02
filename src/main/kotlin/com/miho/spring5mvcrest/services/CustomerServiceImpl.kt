@@ -22,6 +22,8 @@ class CustomerServiceImpl(private val customerRepository: CustomerRepository) : 
     }
 
     override fun saveNewCustomer(customer: CustomerDTO): CustomerDTO {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return customerRepository.save(CustomerMapper.convertDTOToCustomer(customer)
+                ?: throw IllegalArgumentException())
+                .let { CustomerMapper.convertCustomerToDTO(it) ?: throw IllegalStateException() }
     }
 }

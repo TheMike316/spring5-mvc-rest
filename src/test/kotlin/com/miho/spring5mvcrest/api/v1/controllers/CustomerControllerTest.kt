@@ -55,16 +55,16 @@ class CustomerControllerTest {
 
         mockMvc.perform(get("/api/v1/customers/4"))
                 .andExpect(status().isOk)
-                .andExpect(jsonPath("$.firstName", equalTo(customer.firstName)))
-                .andExpect(jsonPath("$.lastName", equalTo(customer.lastName)))
-                .andExpect(jsonPath("$.customerUrl", equalTo(customer.customerUrl)))
+                .andExpect(jsonPath("$.firstname", equalTo(customer.firstname)))
+                .andExpect(jsonPath("$.lastname", equalTo(customer.lastname)))
+                .andExpect(jsonPath("$.customer_url", equalTo(customer.customer_url)))
 
     }
 
     @Test
     fun testCreateNewCustomer() {
         val customer = CustomerDTO("Baum", "Johannson")
-        val returnDTO = CustomerDTO(customer.firstName, customer.lastName, "api/v1/customers/1")
+        val returnDTO = CustomerDTO(customer.firstname, customer.lastname, "api/v1/customers/1")
 
         mockWhen(customerService.saveNewCustomer(customer)).thenReturn(returnDTO)
 
@@ -72,8 +72,8 @@ class CustomerControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(customer.asJsonString()))
                 .andExpect(status().isCreated)
-                .andExpect(jsonPath("$.firstName", equalTo(returnDTO.firstName)))
-                .andExpect(jsonPath("$.lastName", equalTo(returnDTO.lastName)))
-                .andExpect(jsonPath("$.customerUrl", equalTo(returnDTO.customerUrl)))
+                .andExpect(jsonPath("$.firstname", equalTo(returnDTO.firstname)))
+                .andExpect(jsonPath("$.lastname", equalTo(returnDTO.lastname)))
+                .andExpect(jsonPath("$.customer_url", equalTo(returnDTO.customer_url)))
     }
 }

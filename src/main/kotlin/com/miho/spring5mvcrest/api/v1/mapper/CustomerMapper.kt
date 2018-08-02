@@ -9,11 +9,13 @@ object CustomerMapper {
             if (customer == null)
                 null
             else
-                CustomerDTO(firstName = customer.firstName, lastName = customer.lastName)
+                CustomerDTO(firstname = customer.firstName, lastname = customer.lastName, customer_url = createUrl(customer))
+
+    private fun createUrl(customer: Customer) = "/api/v1/customers/${customer.id}"
 
     fun convertDTOToCustomer(dto: CustomerDTO?) =
             if (dto == null)
                 null
             else
-                Customer(dto.firstName, dto.lastName)
+                Customer(dto.firstname, dto.lastname)
 }
