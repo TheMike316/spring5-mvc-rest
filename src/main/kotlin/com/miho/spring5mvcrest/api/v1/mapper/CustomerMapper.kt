@@ -17,5 +17,5 @@ object CustomerMapper {
             if (dto == null)
                 null
             else
-                Customer(dto.firstname, dto.lastname)
+                Customer(dto.firstname ?: "", dto.lastname ?: "")
 }

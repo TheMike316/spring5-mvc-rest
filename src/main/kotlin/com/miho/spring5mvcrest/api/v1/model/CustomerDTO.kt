@@ -1,8 +1,8 @@
 package com.miho.spring5mvcrest.api.v1.model
 
 data class CustomerDTO(
-        var firstname: String = "",
+        var firstname: String? = null,
 
-        var lastname: String = "",
+        var lastname: String? = null,
 
-        var customer_url: String = "")
+        var customer_url: String? = null)
