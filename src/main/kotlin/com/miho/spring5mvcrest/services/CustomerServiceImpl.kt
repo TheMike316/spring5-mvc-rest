@@ -9,21 +9,27 @@ import org.springframework.stereotype.Service
 @Service
 class CustomerServiceImpl(private val customerRepository: CustomerRepository) : CustomerService {
 
-    override fun getAllCustomers(): CustomerListDTO {
-        return customerRepository.findAll()
-                .map { CustomerMapper.convertCustomerToDTO(it) ?: throw IllegalStateException() }
-                .let { CustomerListDTO(it) }
-    }
+    override fun getAllCustomers() = customerRepository.findAll()
+            .map { CustomerMapper.convertCustomerToDTO(it) ?: throw IllegalStateException() }
+            .let { CustomerListDTO(it) }
 
-    override fun getCustomerById(id: Long): CustomerDTO {
-        return customerRepository.findById(id)
-                .orElseThrow { RuntimeException("None of them fancy customers o' yours with them fancy id was found") }
-                .let { CustomerMapper.convertCustomerToDTO(it) ?: throw IllegalStateException() }
-    }
+    override fun getCustomerById(id: Long) = customerRepository.findById(id)
+            .orElseThrow { RuntimeException("None of them fancy customers o' yours with them fancy id was found") }
+            .let { CustomerMapper.convertCustomerToDTO(it) ?: throw IllegalStateException() }
 
-    override fun saveNewCustomer(customer: CustomerDTO): CustomerDTO {
-        return customerRepository.save(CustomerMapper.convertDTOToCustomer(customer)
-                ?: throw IllegalArgumentException())
-                .let { CustomerMapper.convertCustomerToDTO(it) ?: throw IllegalStateException() }
+    override fun saveNewCustomer(customer: CustomerDTO) = customerRepository.save(CustomerMapper.convertDTOToCustomer(customer)
+            ?: throw IllegalArgumentException())
+            .let { CustomerMapper.convertCustomerToDTO(it) ?: throw IllegalStateException() }
+
+
+    override fun updateCustomer(id: Long, customer: CustomerDTO): CustomerDTO {
+        customerRepository.findById(id).orElseThrow { IllegalArgumentException("That dude doesn't exist") }
+
+        val customerEntity = CustomerMapper.convertDTOToCustomer(customer) ?: throw IllegalArgumentException("....")
+        customerEntity.id = id
+
+        return customerRepository.save(customerEntity).let {
+            CustomerMapper.convertCustomerToDTO(it) ?: throw IllegalStateException()
+        }
     }
 }

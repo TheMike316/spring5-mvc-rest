@@ -6,6 +6,7 @@ import com.miho.spring5mvcrest.repository.CustomerRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
+import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyLong
 import org.mockito.InjectMocks
 import org.mockito.Mock
@@ -68,5 +69,33 @@ class CustomerServiceImplTest {
         assertThat(savedCustomer.firstname).isEqualTo(customer.firstName)
         assertThat(savedCustomer.lastname).isEqualTo(customer.lastName)
         assertThat(savedCustomer.customer_url).isNotBlank()
+    }
+
+    @Test
+    fun testUpdateCustomer() {
+        //given
+        val customer = Customer("Johann", "Fischfleischer")
+        mockWhen(customerRepository.findById(anyLong())).thenReturn(Optional.of(customer))
+        mockWhen(customerRepository.save(any(Customer::class.java))).thenReturn(customer)
+
+        //when
+        val updatedCustomer = customerService.updateCustomer(10L, CustomerMapper.convertCustomerToDTO(customer)!!)
+
+        //then
+        assertThat(updatedCustomer.firstname).isEqualTo(customer.firstName)
+        assertThat(updatedCustomer.lastname).isEqualTo(customer.lastName)
+        assertThat(updatedCustomer.customer_url).isNotBlank()
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun testUpdateCustomerSadPath() {
+        //given
+        val customer = Customer("Gustav", "Gänsebraten")
+        mockWhen(customerRepository.findById(anyLong())).thenReturn(Optional.empty())
+
+        //when
+        customerService.updateCustomer(2L, CustomerMapper.convertCustomerToDTO(customer)!!)
+
+        //then exception is thrown
     }
 }

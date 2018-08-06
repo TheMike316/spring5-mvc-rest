@@ -14,8 +14,7 @@ import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
@@ -72,6 +71,22 @@ class CustomerControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(customer.asJsonString()))
                 .andExpect(status().isCreated)
+                .andExpect(jsonPath("$.firstname", equalTo(returnDTO.firstname)))
+                .andExpect(jsonPath("$.lastname", equalTo(returnDTO.lastname)))
+                .andExpect(jsonPath("$.customer_url", equalTo(returnDTO.customer_url)))
+    }
+
+    @Test
+    fun testUpdateCustomer() {
+        val customer = CustomerDTO("Joe", "Jambalaya")
+        val returnDTO = CustomerDTO(customer.firstname, customer.lastname, "api/v1/customers/3")
+
+        mockWhen(customerService.updateCustomer(3, customer)).thenReturn(returnDTO)
+
+        mockMvc.perform(put("/api/v1/customers/3")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(customer.asJsonString()))
+                .andExpect(status().isOk)
                 .andExpect(jsonPath("$.firstname", equalTo(returnDTO.firstname)))
                 .andExpect(jsonPath("$.lastname", equalTo(returnDTO.lastname)))
                 .andExpect(jsonPath("$.customer_url", equalTo(returnDTO.customer_url)))

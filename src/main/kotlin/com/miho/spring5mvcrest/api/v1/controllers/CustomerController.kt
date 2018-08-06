@@ -16,4 +16,8 @@ class CustomerController(private val customerService: CustomerService) {
 
     @PostMapping("/", "")
     fun createNewCustomer(@RequestBody customerDTO: CustomerDTO) = customerService.saveNewCustomer(customerDTO).toCreatedResponse()
+
+    @PutMapping("/{id}")
+    fun updateCustomer(@PathVariable id: Long, @RequestBody customerDTO: CustomerDTO) =
+            customerService.updateCustomer(id, customerDTO).toOkResponse()
 }
