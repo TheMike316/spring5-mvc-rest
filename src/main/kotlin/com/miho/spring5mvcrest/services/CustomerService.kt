@@ -12,4 +12,6 @@ interface CustomerService {
     fun saveNewCustomer(customer: CustomerDTO): CustomerDTO
 
     fun updateCustomer(id: Long, customer: CustomerDTO): CustomerDTO
+
+    fun patchCustomer(id: Long, customer: CustomerDTO): CustomerDTO
 }

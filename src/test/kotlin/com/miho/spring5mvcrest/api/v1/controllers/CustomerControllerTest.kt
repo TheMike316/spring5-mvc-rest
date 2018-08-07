@@ -91,4 +91,20 @@ class CustomerControllerTest {
                 .andExpect(jsonPath("$.lastname", equalTo(returnDTO.lastname)))
                 .andExpect(jsonPath("$.customer_url", equalTo(returnDTO.customer_url)))
     }
+
+    @Test
+    fun testPatchCustomer() {
+        val customer = CustomerDTO("Josephine")
+        val returnDTO = CustomerDTO("Josephine", "Jambalaya", "api/v1/customers/3")
+
+        mockWhen(customerService.patchCustomer(3, customer)).thenReturn(returnDTO)
+
+        mockMvc.perform(patch("/api/v1/customers/3")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(customer.asJsonString()))
+                .andExpect(status().isOk)
+                .andExpect(jsonPath("$.firstname", equalTo(returnDTO.firstname)))
+                .andExpect(jsonPath("$.lastname", equalTo(returnDTO.lastname)))
+                .andExpect(jsonPath("$.customer_url", equalTo(returnDTO.customer_url)))
+    }
 }

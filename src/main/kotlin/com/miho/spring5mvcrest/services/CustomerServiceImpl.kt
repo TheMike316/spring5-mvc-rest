@@ -6,7 +6,7 @@ import com.miho.spring5mvcrest.api.v1.model.CustomerListDTO
 import com.miho.spring5mvcrest.repository.CustomerRepository
 import org.springframework.stereotype.Service
 
-@Service
+@Service //TODO check for changes on update and patch
 class CustomerServiceImpl(private val customerRepository: CustomerRepository) : CustomerService {
 
     override fun getAllCustomers() = customerRepository.findAll()
@@ -29,6 +29,20 @@ class CustomerServiceImpl(private val customerRepository: CustomerRepository) : 
         customerEntity.id = id
 
         return customerRepository.save(customerEntity).let {
+            CustomerMapper.convertCustomerToDTO(it) ?: throw IllegalStateException()
+        }
+    }
+
+    override fun patchCustomer(id: Long, customer: CustomerDTO): CustomerDTO {
+        val entity = customerRepository.findById(id).orElseThrow { IllegalArgumentException("Git gud, dude") }
+
+        if (customer.firstname != null)
+            entity.firstName = customer.firstname ?: throw IllegalStateException("Dafuq")
+
+        if (customer.lastname != null)
+            entity.lastName = customer.lastname ?: throw IllegalStateException("Dafuq")
+
+        return customerRepository.save(entity).let {
             CustomerMapper.convertCustomerToDTO(it) ?: throw IllegalStateException()
         }
     }

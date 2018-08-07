@@ -20,4 +20,8 @@ class CustomerController(private val customerService: CustomerService) {
     @PutMapping("/{id}")
     fun updateCustomer(@PathVariable id: Long, @RequestBody customerDTO: CustomerDTO) =
             customerService.updateCustomer(id, customerDTO).toOkResponse()
+
+    @PatchMapping("/{id}")
+    fun patchCustomer(@PathVariable id: Long, @RequestBody customerDTO: CustomerDTO) =
+            customerService.patchCustomer(id, customerDTO).toOkResponse()
 }
