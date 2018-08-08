@@ -11,6 +11,7 @@ import org.junit.Test
 import org.mockito.ArgumentMatchers.anyLong
 import org.mockito.InjectMocks
 import org.mockito.Mock
+import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
@@ -106,5 +107,13 @@ class CustomerControllerTest {
                 .andExpect(jsonPath("$.firstname", equalTo(returnDTO.firstname)))
                 .andExpect(jsonPath("$.lastname", equalTo(returnDTO.lastname)))
                 .andExpect(jsonPath("$.customer_url", equalTo(returnDTO.customer_url)))
+    }
+
+    @Test
+    fun testDeleteCustomer() {
+        mockMvc.perform(delete("/api/v1/customers/3"))
+                .andExpect(status().isOk)
+
+        verify(customerService).deleteCustomerById(anyLong())
     }
 }

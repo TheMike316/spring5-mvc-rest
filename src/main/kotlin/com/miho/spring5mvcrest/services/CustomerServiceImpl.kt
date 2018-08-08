@@ -23,7 +23,7 @@ class CustomerServiceImpl(private val customerRepository: CustomerRepository) : 
 
 
     override fun updateCustomer(id: Long, customer: CustomerDTO): CustomerDTO {
-        customerRepository.findById(id).orElseThrow { IllegalArgumentException("That dude doesn't exist") }
+        customerRepository.findById(id).orElseThrow { RuntimeException("That dude doesn't exist") }
 
         val customerEntity = CustomerMapper.convertDTOToCustomer(customer) ?: throw IllegalArgumentException("....")
         customerEntity.id = id
@@ -34,7 +34,7 @@ class CustomerServiceImpl(private val customerRepository: CustomerRepository) : 
     }
 
     override fun patchCustomer(id: Long, customer: CustomerDTO): CustomerDTO {
-        val entity = customerRepository.findById(id).orElseThrow { IllegalArgumentException("Git gud, dude") }
+        val entity = customerRepository.findById(id).orElseThrow { RuntimeException("Git gud, dude") }
 
         if (customer.firstname != null)
             entity.firstName = customer.firstname ?: throw IllegalStateException("Dafuq")
@@ -46,4 +46,8 @@ class CustomerServiceImpl(private val customerRepository: CustomerRepository) : 
             CustomerMapper.convertCustomerToDTO(it) ?: throw IllegalStateException()
         }
     }
+
+    override fun deleteCustomerById(id: Long) = customerRepository.findById(id)
+            .orElseThrow { RuntimeException("Dude not found, man") }
+            .let { customerRepository.delete(it) }
 }

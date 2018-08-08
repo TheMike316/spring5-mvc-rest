@@ -2,6 +2,8 @@ package com.miho.spring5mvcrest.api.v1.controllers
 
 import com.miho.spring5mvcrest.api.v1.model.CustomerDTO
 import com.miho.spring5mvcrest.services.CustomerService
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -24,4 +26,11 @@ class CustomerController(private val customerService: CustomerService) {
     @PatchMapping("/{id}")
     fun patchCustomer(@PathVariable id: Long, @RequestBody customerDTO: CustomerDTO) =
             customerService.patchCustomer(id, customerDTO).toOkResponse()
+
+    @DeleteMapping("/{id}")
+    fun deleteCustomer(@PathVariable id: Long): ResponseEntity<Unit> {
+        customerService.deleteCustomerById(id)
+
+        return ResponseEntity(HttpStatus.OK)
+    }
 }

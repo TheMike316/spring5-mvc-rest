@@ -14,4 +14,6 @@ interface CustomerService {
     fun updateCustomer(id: Long, customer: CustomerDTO): CustomerDTO
 
     fun patchCustomer(id: Long, customer: CustomerDTO): CustomerDTO
+
+    fun deleteCustomerById(id: Long)
 }

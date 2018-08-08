@@ -10,6 +10,8 @@ import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyLong
 import org.mockito.InjectMocks
 import org.mockito.Mock
+import org.mockito.Mockito.times
+import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 import java.util.*
 import org.mockito.Mockito.`when` as mockWhen
@@ -97,5 +99,18 @@ class CustomerServiceImplTest {
         customerService.updateCustomer(2L, CustomerMapper.convertCustomerToDTO(customer)!!)
 
         //then exception is thrown
+    }
+
+    @Test
+    fun testDeleteCustomerById() {
+        //given
+        val customer = Customer("Fisch", "Baum", 1L)
+        mockWhen(customerRepository.findById(anyLong())).thenReturn(Optional.of(customer))
+
+        //when
+        customerService.deleteCustomerById(customer.id)
+
+        //then
+        verify(customerRepository, times(1)).delete(any<Customer>())
     }
 }
