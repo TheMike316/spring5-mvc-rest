@@ -43,17 +43,17 @@ class CustomerControllerTest {
         val customers = CustomerListDTO(listOf(CustomerDTO("Adam", "Average"), CustomerDTO("Eve", "Everlasting")))
         mockWhen(customerService.getAllCustomers()).thenReturn(customers)
 
-        mockMvc.perform(get("/api/v1/customers/"))
+        mockMvc.perform(get(CustomerController.BASE_URL))
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$.customers", hasSize<CustomerDTO>(2)))
     }
 
     @Test
     fun getCustomerById() {
-        val customer = CustomerDTO("Geoff", "Gelöööööck", "/api/v1/customers/4")
+        val customer = CustomerDTO("Geoff", "Gelöööööck", "${CustomerController.BASE_URL}/4")
         mockWhen(customerService.getCustomerById(anyLong())).thenReturn(customer)
 
-        mockMvc.perform(get("/api/v1/customers/4"))
+        mockMvc.perform(get("${CustomerController.BASE_URL}/4"))
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$.firstname", equalTo(customer.firstname)))
                 .andExpect(jsonPath("$.lastname", equalTo(customer.lastname)))
@@ -64,11 +64,11 @@ class CustomerControllerTest {
     @Test
     fun testCreateNewCustomer() {
         val customer = CustomerDTO("Baum", "Johannson")
-        val returnDTO = CustomerDTO(customer.firstname, customer.lastname, "api/v1/customers/1")
+        val returnDTO = CustomerDTO(customer.firstname, customer.lastname, "${CustomerController.BASE_URL}/1")
 
         mockWhen(customerService.saveNewCustomer(customer)).thenReturn(returnDTO)
 
-        mockMvc.perform(post("/api/v1/customers/")
+        mockMvc.perform(post(CustomerController.BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(customer.asJsonString()))
                 .andExpect(status().isCreated)
@@ -80,11 +80,11 @@ class CustomerControllerTest {
     @Test
     fun testUpdateCustomer() {
         val customer = CustomerDTO("Joe", "Jambalaya")
-        val returnDTO = CustomerDTO(customer.firstname, customer.lastname, "api/v1/customers/3")
+        val returnDTO = CustomerDTO(customer.firstname, customer.lastname, "${CustomerController.BASE_URL}/3")
 
         mockWhen(customerService.updateCustomer(3, customer)).thenReturn(returnDTO)
 
-        mockMvc.perform(put("/api/v1/customers/3")
+        mockMvc.perform(put("${CustomerController.BASE_URL}/3")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(customer.asJsonString()))
                 .andExpect(status().isOk)
@@ -96,11 +96,11 @@ class CustomerControllerTest {
     @Test
     fun testPatchCustomer() {
         val customer = CustomerDTO("Josephine")
-        val returnDTO = CustomerDTO("Josephine", "Jambalaya", "api/v1/customers/3")
+        val returnDTO = CustomerDTO("Josephine", "Jambalaya", "${CustomerController.BASE_URL}/3")
 
         mockWhen(customerService.patchCustomer(3, customer)).thenReturn(returnDTO)
 
-        mockMvc.perform(patch("/api/v1/customers/3")
+        mockMvc.perform(patch("${CustomerController.BASE_URL}/3")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(customer.asJsonString()))
                 .andExpect(status().isOk)
@@ -111,7 +111,7 @@ class CustomerControllerTest {
 
     @Test
     fun testDeleteCustomer() {
-        mockMvc.perform(delete("/api/v1/customers/3"))
+        mockMvc.perform(delete("${CustomerController.BASE_URL}/3"))
                 .andExpect(status().isOk)
 
         verify(customerService).deleteCustomerById(anyLong())

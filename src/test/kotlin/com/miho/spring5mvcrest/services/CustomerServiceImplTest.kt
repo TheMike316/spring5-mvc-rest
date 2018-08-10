@@ -89,7 +89,7 @@ class CustomerServiceImplTest {
         assertThat(updatedCustomer.customer_url).isNotBlank()
     }
 
-    @Test(expected = IllegalArgumentException::class)
+    @Test(expected = RuntimeException::class)
     fun testUpdateCustomerSadPath() {
         //given
         val customer = Customer("Gustav", "Gänsebraten")
