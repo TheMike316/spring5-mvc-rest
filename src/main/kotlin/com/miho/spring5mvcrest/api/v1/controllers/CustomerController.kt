@@ -3,7 +3,6 @@ package com.miho.spring5mvcrest.api.v1.controllers
 import com.miho.spring5mvcrest.api.v1.model.CustomerDTO
 import com.miho.spring5mvcrest.services.CustomerService
 import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -15,26 +14,30 @@ class CustomerController(private val customerService: CustomerService) {
     }
 
     @GetMapping("/", "")
-    fun getAllCustomers() = customerService.getAllCustomers().toOkResponse()
+    @ResponseStatus(HttpStatus.OK)
+    fun getAllCustomers() = customerService.getAllCustomers()
 
     @GetMapping("/{id}")
-    fun getCustomerById(@PathVariable id: Long) = customerService.getCustomerById(id).toOkResponse()
+    @ResponseStatus(HttpStatus.OK)
+    fun getCustomerById(@PathVariable id: Long) = customerService.getCustomerById(id)
 
     @PostMapping("/", "")
-    fun createNewCustomer(@RequestBody customerDTO: CustomerDTO) = customerService.saveNewCustomer(customerDTO).toCreatedResponse()
+    @ResponseStatus(HttpStatus.CREATED)
+    fun createNewCustomer(@RequestBody customerDTO: CustomerDTO) = customerService.saveNewCustomer(customerDTO)
 
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     fun updateCustomer(@PathVariable id: Long, @RequestBody customerDTO: CustomerDTO) =
-            customerService.updateCustomer(id, customerDTO).toOkResponse()
+            customerService.updateCustomer(id, customerDTO)
 
     @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     fun patchCustomer(@PathVariable id: Long, @RequestBody customerDTO: CustomerDTO) =
-            customerService.patchCustomer(id, customerDTO).toOkResponse()
+            customerService.patchCustomer(id, customerDTO)
 
     @DeleteMapping("/{id}")
-    fun deleteCustomer(@PathVariable id: Long): ResponseEntity<Unit> {
+    @ResponseStatus(HttpStatus.OK)
+    fun deleteCustomer(@PathVariable id: Long) {
         customerService.deleteCustomerById(id)
-
-        return ResponseEntity(HttpStatus.OK)
     }
 }
