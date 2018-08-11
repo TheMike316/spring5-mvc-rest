@@ -2,6 +2,7 @@ package com.miho.spring5mvcrest.api.v1.controllers
 
 import com.miho.spring5mvcrest.api.v1.model.CategoryDTO
 import com.miho.spring5mvcrest.api.v1.model.CategoryListDTO
+import com.miho.spring5mvcrest.exceptions.ResourceNotFound
 import com.miho.spring5mvcrest.services.CategoryService
 import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.hasSize
@@ -33,7 +34,10 @@ class CategoryControllerTest {
     fun setUp() {
         MockitoAnnotations.initMocks(this)
 
-        mockMvc = MockMvcBuilders.standaloneSetup(categoryController).build()
+        mockMvc = MockMvcBuilders
+                .standaloneSetup(categoryController)
+                .setControllerAdvice(RestResponseEntityExceptionHandler())
+                .build()
     }
 
     @Test
@@ -59,4 +63,13 @@ class CategoryControllerTest {
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$.name", equalTo("Jim")))
     }
+
+    @Test
+    fun testNotFound() {
+        mockWhen(categoryService.getCategoryByName(ArgumentMatchers.anyString())).thenThrow(ResourceNotFound())
+
+        mockMvc.perform(get("/api/v1/categories/Joe"))
+                .andExpect(status().isNotFound)
+    }
+
 }

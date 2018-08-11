@@ -2,6 +2,7 @@ package com.miho.spring5mvcrest.api.v1.controllers
 
 import com.miho.spring5mvcrest.api.v1.model.CustomerDTO
 import com.miho.spring5mvcrest.api.v1.model.CustomerListDTO
+import com.miho.spring5mvcrest.exceptions.ResourceNotFound
 import com.miho.spring5mvcrest.services.CustomerService
 import com.miho.spring5mvcrest.utils.asJsonString
 import org.hamcrest.Matchers.equalTo
@@ -35,7 +36,10 @@ class CustomerControllerTest {
     fun setUp() {
         MockitoAnnotations.initMocks(this)
 
-        mockMvc = MockMvcBuilders.standaloneSetup(customerController).build()
+        mockMvc = MockMvcBuilders
+                .standaloneSetup(customerController)
+                .setControllerAdvice(RestResponseEntityExceptionHandler())
+                .build()
     }
 
     @Test
@@ -115,5 +119,13 @@ class CustomerControllerTest {
                 .andExpect(status().isOk)
 
         verify(customerService).deleteCustomerById(anyLong())
+    }
+
+    @Test
+    fun testNotFound() {
+        mockWhen(customerService.getCustomerById(anyLong())).thenThrow(ResourceNotFound())
+
+        mockMvc.perform(get("${CustomerController.BASE_URL}/999"))
+                .andExpect(status().isNotFound)
     }
 }
