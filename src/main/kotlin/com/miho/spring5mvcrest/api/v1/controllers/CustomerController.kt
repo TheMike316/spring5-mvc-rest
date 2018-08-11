@@ -14,11 +14,9 @@ class CustomerController(private val customerService: CustomerService) {
     }
 
     @GetMapping("/", "")
-    @ResponseStatus(HttpStatus.OK)
     fun getAllCustomers() = customerService.getAllCustomers()
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
     fun getCustomerById(@PathVariable id: Long) = customerService.getCustomerById(id)
 
     @PostMapping("/", "")
@@ -26,17 +24,14 @@ class CustomerController(private val customerService: CustomerService) {
     fun createNewCustomer(@RequestBody customerDTO: CustomerDTO) = customerService.saveNewCustomer(customerDTO)
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
     fun updateCustomer(@PathVariable id: Long, @RequestBody customerDTO: CustomerDTO) =
             customerService.updateCustomer(id, customerDTO)
 
     @PatchMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
     fun patchCustomer(@PathVariable id: Long, @RequestBody customerDTO: CustomerDTO) =
             customerService.patchCustomer(id, customerDTO)
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
     fun deleteCustomer(@PathVariable id: Long) {
         customerService.deleteCustomerById(id)
     }
