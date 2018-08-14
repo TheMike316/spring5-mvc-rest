@@ -3,6 +3,7 @@ package com.miho.spring5mvcrest.services
 import com.miho.spring5mvcrest.api.v1.mapper.CustomerMapper
 import com.miho.spring5mvcrest.api.v1.model.CustomerDTO
 import com.miho.spring5mvcrest.api.v1.model.CustomerListDTO
+import com.miho.spring5mvcrest.exceptions.ResourceNotFound
 import com.miho.spring5mvcrest.repository.CustomerRepository
 import org.springframework.stereotype.Service
 
@@ -14,7 +15,7 @@ class CustomerServiceImpl(private val customerRepository: CustomerRepository) : 
             .let { CustomerListDTO(it) }
 
     override fun getCustomerById(id: Long) = customerRepository.findById(id)
-            .orElseThrow { RuntimeException("None of them fancy customers o' yours with them fancy id was found") }
+            .orElseThrow { ResourceNotFound("None of them fancy customers o' yours with them fancy id was found") }
             .let { CustomerMapper.convertCustomerToDTO(it) ?: throw IllegalStateException() }
 
     override fun saveNewCustomer(customer: CustomerDTO) = customerRepository.save(CustomerMapper.convertDTOToCustomer(customer)
@@ -23,7 +24,7 @@ class CustomerServiceImpl(private val customerRepository: CustomerRepository) : 
 
 
     override fun updateCustomer(id: Long, customer: CustomerDTO): CustomerDTO {
-        customerRepository.findById(id).orElseThrow { RuntimeException("That dude doesn't exist") }
+        customerRepository.findById(id).orElseThrow { ResourceNotFound("That dude doesn't exist") }
 
         val customerEntity = CustomerMapper.convertDTOToCustomer(customer) ?: throw IllegalArgumentException("....")
         customerEntity.id = id
@@ -34,7 +35,7 @@ class CustomerServiceImpl(private val customerRepository: CustomerRepository) : 
     }
 
     override fun patchCustomer(id: Long, customer: CustomerDTO): CustomerDTO {
-        val entity = customerRepository.findById(id).orElseThrow { RuntimeException("Git gud, dude") }
+        val entity = customerRepository.findById(id).orElseThrow { ResourceNotFound("Git gud, dude") }
 
         if (customer.firstname != null)
             entity.firstName = customer.firstname ?: throw IllegalStateException("Dafuq")
@@ -48,6 +49,6 @@ class CustomerServiceImpl(private val customerRepository: CustomerRepository) : 
     }
 
     override fun deleteCustomerById(id: Long) = customerRepository.findById(id)
-            .orElseThrow { RuntimeException("Dude not found, man") }
+            .orElseThrow { ResourceNotFound("Dude not found, man") }
             .let { customerRepository.delete(it) }
 }
