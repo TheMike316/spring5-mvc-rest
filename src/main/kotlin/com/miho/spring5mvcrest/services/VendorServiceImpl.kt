@@ -1,12 +1,11 @@
 package com.miho.spring5mvcrest.services
 
 import com.miho.spring5mvcrest.api.v1.model.VendorDTO
-import com.miho.spring5mvcrest.api.v1.model.VendorListDTO
 import org.springframework.stereotype.Service
 
 @Service
 class VendorServiceImpl : VendorService {
-    override fun getAllVendors(): VendorListDTO {
+    override fun getAllVendors(): List<VendorDTO> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
