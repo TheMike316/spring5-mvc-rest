@@ -1,10 +1,11 @@
 package com.miho.spring5mvcrest.services
 
 import com.miho.spring5mvcrest.api.v1.model.VendorDTO
+import com.miho.spring5mvcrest.api.v1.model.VendorListDTO
 
 interface VendorService {
 
-    fun getAllVendors(): List<VendorDTO>
+    fun getAllVendors(): VendorListDTO
 
     fun getVendorById(id: Long): VendorDTO
 

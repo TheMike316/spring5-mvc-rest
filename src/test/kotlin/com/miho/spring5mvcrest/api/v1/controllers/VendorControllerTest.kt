@@ -1,6 +1,7 @@
 package com.miho.spring5mvcrest.api.v1.controllers
 
 import com.miho.spring5mvcrest.api.v1.model.VendorDTO
+import com.miho.spring5mvcrest.api.v1.model.VendorListDTO
 import com.miho.spring5mvcrest.exceptions.ResourceNotFound
 import com.miho.spring5mvcrest.services.VendorService
 import com.miho.spring5mvcrest.utils.asJsonString
@@ -43,7 +44,7 @@ class VendorControllerTest {
 
     @Test
     fun testGetAllVendors() {
-        val vendors = listOf(VendorDTO("Fruity Factory"), VendorDTO("Elastic Eagles"))
+        val vendors = VendorListDTO(listOf(VendorDTO("Fruity Factory"), VendorDTO("Elastic Eagles")))
 
         mockWhen(vendorService.getAllVendors()).thenReturn(vendors)
 

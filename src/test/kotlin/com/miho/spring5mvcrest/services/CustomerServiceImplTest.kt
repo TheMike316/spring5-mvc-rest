@@ -40,7 +40,6 @@ class CustomerServiceImplTest {
 
         //then
         assertThat(readCustomers.customers.size).isEqualTo(customers.size)
-        //assertThat(readCustomers.customers.map { it.id }).containsOnly(*customers.map { it.id }.toTypedArray())
     }
 
     @Test
