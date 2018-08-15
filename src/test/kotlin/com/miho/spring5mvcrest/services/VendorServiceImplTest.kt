@@ -7,6 +7,7 @@ import org.assertj.core.api.Assertions
 import org.junit.Before
 import org.junit.Test
 import org.mockito.*
+import org.mockito.ArgumentMatchers.any
 import java.util.*
 
 class VendorServiceImplTest {
@@ -52,7 +53,7 @@ class VendorServiceImplTest {
     fun testCreateNewVendor() {
         //given
         val vendor = Vendor("Ingrid's Italian Mushrooms", 3)
-        Mockito.`when`(vendorRepository.save(vendor)).thenReturn(vendor)
+        Mockito.`when`(vendorRepository.save(any(Vendor::class.java))).thenReturn(vendor)
 
         //when
         val savedVendor = vendorService.saveNewVendor(VendorMapper.convertVendorToDTO(vendor)!!)

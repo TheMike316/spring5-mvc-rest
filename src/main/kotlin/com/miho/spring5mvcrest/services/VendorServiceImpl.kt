@@ -33,10 +33,16 @@ class VendorServiceImpl(private val vendorRepository: VendorRepository) : Vendor
     }
 
     override fun patchVendor(id: Long, vendorDTO: VendorDTO): VendorDTO {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val entity = vendorRepository.findById(id).orElseThrow { ResourceNotFound() }
+
+        if (vendorDTO.name != null)
+            entity.name = vendorDTO.name ?: throw IllegalStateException()
+
+        return vendorRepository.save(entity)
+                .let { VendorMapper.convertVendorToDTO(it) ?: throw IllegalStateException() }
     }
 
-    override fun deleteVendorById(id: Long) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun deleteVendorById(id: Long) = vendorRepository.findById(id)
+            .orElseThrow { ResourceNotFound() }
+            .let { vendorRepository.delete(it) }
 }
