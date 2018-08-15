@@ -1,3 +1,10 @@
 package com.miho.spring5mvcrest.api.v1.model
 
-data class VendorListDTO(var vendors: List<VendorDTO>)
+import io.swagger.annotations.ApiModel
+import io.swagger.annotations.ApiModelProperty
+
+@ApiModel("VendorList")
+data class VendorListDTO(
+        @ApiModelProperty("Vendors")
+        var vendors: List<VendorDTO>
+)
